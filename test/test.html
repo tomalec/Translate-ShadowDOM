@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+    <script src="../bower_components/web-component-tester/browser.js"></script>
+    <script src="../shadowdom-v1-to-v0.js"></script>
+</head>
+
+<body>
+    <test-fixture id="toBeLoadedAsDocFrag">
+        <template>
+    <template>
+        <h2>Custom Shadow DOM composition</h2>
+		<slot name="my-slot"></slot>
+		<slot name='my-slot'></slot>
+		<slot></slot>
+		<slot    name="my-slot"    ></slot>
+		<slot       ></slot   >
+		<slot foo="bar" name="my-slot" baz></slot>
+    </template>
+        </template>
+    </test-fixture>
+    <template id="reference-composition">
+		<h2>Custom Shadow DOM composition</h2>
+		<content name="my-slot" select="[slot='my-slot']"></content>
+		<content name='my-slot' select="[slot='my-slot']"></content>
+		<content></content>
+		<content name="my-slot" select="[slot='my-slot']"></content>
+		<content></content>
+		<content foo="bar" name="my-slot" baz select="[slot='my-slot']"></content>
+    </template>
+
+    <script id="toBeLoadedAsString" type="text/html">
+        <h2>Custom Shadow DOM composition</h2>
+		<slot name="my-slot"></slot>
+		<slot name='my-slot'></slot>
+		<slot></slot>
+		<slot    name="my-slot"    ></slot>
+		<slot       ></slot   >
+		<slot foo="bar" name="my-slot" baz></slot>
+    </script>
+    <template id="toBeLoadedAsDocFrag">
+        <h2>Custom Shadow DOM composition</h2>
+		<slot name="my-slot"></slot>
+		<slot name='my-slot'></slot>
+		<slot></slot>
+		<slot    name="my-slot"    ></slot>
+		<slot       ></slot   >
+		<slot foo="bar" name="my-slot" baz></slot>
+    </template>
+
+
+    <script>
+    describe('ShadowDOMV1toV0.replaceSlotsWithContent', function () {
+
+        var shadowDOMV1;
+        var compositionString = document.getElementById('toBeLoadedAsDocFrag').textContent;
+        var referenceElement = document.querySelector('#reference-composition');
+
+        beforeEach(function () {
+            shadowDOMV1 = fixture('toBeLoadedAsDocFrag').content;
+        });
+        it('should replace slots them with applicable content tags', function () {
+            let sanitizingDiv = document.createElement('div');
+            sanitizingDiv.appendChild(document.importNode(shadowDOMV1, true));
+            ShadowDOMV1toV0.replaceSlotsWithContent(sanitizingDiv);
+            expect(sanitizingDiv.innerHTML.trim()).to.equal(referenceElement.innerHTML.trim());
+        });
+
+    });
+    describe('ShadowDOMV1toV0.replaceSlotsWithContentInString', function () {
+        var compositionString = document.getElementById('toBeLoadedAsString').textContent;
+        var referenceElement = document.querySelector('#reference-composition');
+
+        it('should replace slots them with applicable content tags', function () {
+            let sanitizingDiv = document.createElement('div');
+            sanitizingDiv.innerHTML = ShadowDOMV1toV0.replaceSlotsWithContentInString(compositionString);
+            expect(sanitizingDiv.innerHTML.trim()).to.equal(referenceElement.innerHTML.trim());
+        });
+
+    });
+    </script>
+
+</body>
+
+</html>
