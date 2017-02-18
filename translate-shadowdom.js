@@ -46,15 +46,18 @@ const TranslateShadowDOM = {
         /**
         * Replace all <slot> elements with <content> elements i given document fragment
         * @param  {Documentfragment|Node} root scope. Will be changed.
+        * @param  {Boolean}                 withStyle should enclosed `style` tags be also translated
         * @return {Documentfragment|Node}      modified scope
         */
-        fragment: function(root) {
+        fragment: function(root, withStyle) {
             if (root.firstChild) {
                 var node = root.firstChild;
                 while (node) {
                     var next = node.nextSibling;
-                    if (node.localName == 'slot') {
+                    if (node.localName === 'slot') {
                         node = TranslateShadowDOM.v1tov0.slot(node);
+                    } else if (withStyle && node.localName === 'style') {
+                        node.textContent = TranslateShadowDOM.v1tov0.css(node.textContent);
                     }
                     node = next;
                 }

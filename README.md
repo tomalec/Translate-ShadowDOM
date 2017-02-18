@@ -1,7 +1,7 @@
 # Translate-ShadowDOM [![Build Status](https://travis-ci.org/tomalec/Translate-ShadowDOM.svg?branch=master)](https://travis-ci.org/tomalec/Translate-ShadowDOM)
 
 Set of utilities to transform Shadow DOM v1 to v0.
-Usefull when writing "hybrid" Web Components which are V1 redy,but run in v0 environment/polyfill
+Usefull when writing "hybrid" Web Components which are V1 ready, but run in v0 environment/polyfill
 
 
 ### Small sample
@@ -12,6 +12,11 @@ If you have Shadow DOM prepared for V1
     <p slot="my-slot">I want to be distributed as in V1</p>
 </div>
 <template>
+    <style>
+        ::slotted(p){
+            color: green;
+        }
+    </style>
     <h2>Shadow DOM prepared for V1</h2>
     <slot name="my-slot"></slot>
 </template>
@@ -19,15 +24,20 @@ If you have Shadow DOM prepared for V1
 You can now use it in your current app/element running on V0 environment (like current [webcomponentsjs polyfill](https://github.com/webcomponents/webcomponentsjs))
 ```javascript
 let sRoot = myElement.createShadowRoot();
-sRoot.innerHTML = TranslateShadowDOM.replaceSlotsWithContentInString(compositionString);
+sRoot.innerHTML = TranslateShadowDOM.v1tov0.html(compositionString);
 // or if you already have it parsed as document fragment
-TranslateShadowDOM.replaceSlotsWithContentInString(documentfragment);
+TranslateShadowDOM.v1tov0.fragment(documentfragment, true);
 ```
 To get
 ```html
 <template>
+    <style>
+        ::content p{
+            color: green;
+        }
+    </style>
     <h2>Shadow DOM prepared for V1</h2>
-    <content select="[slot='my-slot']"></content>
+    <content name="my-slot" select="[slot='my-slot']"></content>
 </template>
 ```
 So, it would get rendered as you would expect in V1:
@@ -70,15 +80,16 @@ Or [download as ZIP](https://github.com/Starcounter/translate-shadowdom/archive/
 
 #### TranslateShadowDOM.v1tov0.html(_String_ `compositionString`) : _String_
 
-Translates the HTML given in string, replacing all `<slot name="foo">smth</slot>` with `<content select="[slot='foo']">smth</content>`
+Translates the HTML given in string, replacing all `<slot name="foo">smth</slot>` with `<content name="foo" select="[slot='foo']">smth</content>`
 
 #### TranslateShadowDOM.v1tov0.slot(_HTMLElement_ `slot`) : _ContentElement_
 
 Replaces given `SlotElement` (or `UnknownElement` `<slot>`) with ContentElement (`<content>`).
 
-#### TranslateShadowDOM.v1tov0.fragment(_HTMLElement | DocumentFragment_ `root`) : _HTMLElement | DocumentFragment_
+#### TranslateShadowDOM.v1tov0.fragment(_HTMLElement | DocumentFragment_ `root`, _Boolean_ `withStyle`) : _HTMLElement | DocumentFragment_
 
-Replaces all `SlotElement`s (or `UnknownElement`s `<slot>`) with `ContentElement`s (`<content>`) in given `root`
+Replaces all `SlotElement`s (or `UnknownElement`s `<slot>`) with `ContentElement`s (`<content>`) in given `root`.
+If `withStyle` is set to true, will also translate CSS selectors in enclosed `<style>` elements.
 
 #### TranslateShadowDOM.v1tov0.css(_String_ `styleString`) : _String_
 
