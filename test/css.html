@@ -7,7 +7,7 @@
 
     <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
     <script src="../bower_components/web-component-tester/browser.js"></script>
-    <script src="../shadowdom-v1-to-v0.js"></script>
+    <script src="../translate-shadowdom.js"></script>
 </head>
 
 <body>
@@ -38,14 +38,14 @@
 
 
     <script>
-    describe('ShadowDOMV1toV0.replaceSlottedWithContent', function () {
+    describe('TranslateShadowDOM.replaceSlottedWithContent', function () {
 
         var styles = document.getElementById('toBeLoadedAsString').textContent;
         var referenceElement = document.querySelector('#reference').textContent;
 
         it('should replace slots them with applicable content tags', function () {
 
-            expect(ShadowDOMV1toV0.replaceSlottedWithContent(styles).trim()).to.equal(referenceElement.trim());
+            expect(TranslateShadowDOM.v1tov0.css(styles).trim()).to.equal(referenceElement.trim());
         });
 
     });

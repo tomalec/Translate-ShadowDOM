@@ -1,4 +1,4 @@
-# ShadowDOM-V1-to-V0 [![Build Status](https://travis-ci.org/tomalec/ShadowDOM-V1-to-V0.svg?branch=master)](https://travis-ci.org/tomalec/ShadowDOM-V1-to-V0)
+# Translate-ShadowDOM [![Build Status](https://travis-ci.org/tomalec/Translate-ShadowDOM.svg?branch=master)](https://travis-ci.org/tomalec/Translate-ShadowDOM)
 
 Set of utilities to transform Shadow DOM v1 to v0.
 Usefull when writing "hybrid" Web Components which are V1 redy,but run in v0 environment/polyfill
@@ -19,9 +19,9 @@ If you have Shadow DOM prepared for V1
 You can now use it in your current app/element running on V0 environment (like current [webcomponentsjs polyfill](https://github.com/webcomponents/webcomponentsjs))
 ```javascript
 let sRoot = myElement.createShadowRoot();
-sRoot.innerHTML = ShadowDOMV1toV0.replaceSlotsWithContentInString(compositionString);
+sRoot.innerHTML = TranslateShadowDOM.replaceSlotsWithContentInString(compositionString);
 // or if you already have it parsed as document fragment
-ShadowDOMV1toV0.replaceSlotsWithContentInString(documentfragment);
+TranslateShadowDOM.replaceSlotsWithContentInString(documentfragment);
 ```
 To get
 ```html
@@ -56,38 +56,38 @@ So, it would get rendered as you would expect in V1:
 Install the component using [Bower](http://bower.io/):
 
 ```sh
-$ bower install shadowdom-v1-to-v0 --save
+$ bower install translate-shadowdom --save
 ```
 [npm](https://www.npmjs.com/)
 ```sh
-$ npm install shadowdom-v1-to-v0 --save
+$ npm install translate-shadowdom --save
 ```
 
-Or [download as ZIP](https://github.com/Starcounter/shadowdom-v1-to-v0/archive/master.zip).
+Or [download as ZIP](https://github.com/Starcounter/translate-shadowdom/archive/master.zip).
 
 
 ## API
 
-#### ShadowDOMV1toV0.replaceSlotsWithContentInString(_String_ `compositionString`) : _String_
+#### TranslateShadowDOM.v1tov0.html(_String_ `compositionString`) : _String_
 
 Translates the HTML given in string, replacing all `<slot name="foo">smth</slot>` with `<content select="[slot='foo']">smth</content>`
 
-#### ShadowDOMV1toV0.replaceSlotWithContent(_HTMLElement_ `slot`) : _ContentElement_
+#### TranslateShadowDOM.v1tov0.slot(_HTMLElement_ `slot`) : _ContentElement_
 
 Replaces given `SlotElement` (or `UnknownElement` `<slot>`) with ContentElement (`<content>`).
 
-#### ShadowDOMV1toV0.replaceSlotsWithContent(_HTMLElement | DocumentFragment_ `root`) : _HTMLElement | DocumentFragment_
+#### TranslateShadowDOM.v1tov0.fragment(_HTMLElement | DocumentFragment_ `root`) : _HTMLElement | DocumentFragment_
 
 Replaces all `SlotElement`s (or `UnknownElement`s `<slot>`) with `ContentElement`s (`<content>`) in given `root`
 
-#### ShadowDOMV1toV0.replaceSlottedWithContent(_String_ `styleString`) : _String_
+#### TranslateShadowDOM.v1tov0.css(_String_ `styleString`) : _String_
 
 Replaces `::slotted(.foo)` with `::content .foo` in given string.
 
 ## Test suite
 
  - local browser `./test/index.html`
- - [online](http://tomalec.github.io/shadowdom-v1-to-v0/test)
+ - [online](http://tomalec.github.io/translate-shadowdom/test)
 
 ## Contributing
 
@@ -100,7 +100,7 @@ Replaces `::slotted(.foo)` with `::content .foo` in given string.
 
 ## History
 
-For detailed changelog, check [Releases](https://github.com/tomalec/shadowdom-v1-to-v0/releases).
+For detailed changelog, check [Releases](https://github.com/tomalec/translate-shadowdom/releases).
 
 ## License
 

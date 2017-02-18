@@ -1,7 +1,7 @@
 {
-  "name": "shadowdom-v1-to-v0",
-  "description": "Set of utilities to transform Shadow DOM v1 to v0",
-  "main": "shadowdom-v1-to-v0.js",
+  "name": "translate-shadowdom",
+  "description": "Set of utilities to translate Shadow DOM v1 to v0",
+  "main": "translate-shadowdom.js",
   "authors": [
     "Tomek Wytrebowicz"
   ],

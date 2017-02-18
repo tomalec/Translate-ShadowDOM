@@ -1,8 +1,8 @@
 {
-  "name": "shadowdom-v1-to-v0",
+  "name": "translate-shadowdom",
   "version": "0.0.0",
   "description": "Set of utilities to transform Shadow DOM v1 to v0",
-  "homepage": "https://github.com/tomalec/ShadowDOM-V1-to-V0",
+  "homepage": "https://github.com/tomalec/Translate-ShadowDOM",
   "keywords": [
     "web components",
     "shadow dom",
@@ -15,14 +15,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/tomalec/ShadowDOM-V1-to-V0.git"
+    "url": "git://github.com/tomalec/Translate-ShadowDOM.git"
   },
   "bugs": {
-    "url": "https://github.com/tomalec/ShadowDOM-V1-to-V0/issues"
+    "url": "https://github.com/tomalec/Translate-ShadowDOM/issues"
   },
   "author": "Tomek Wytrebowicz",
   "license": "MIT",
-  "main": "shadowdom-v1-to-v0.js",
+  "main": "translate-shadowdom.js",
   "devDependencies": {
     "mocha": "^3.2.0",
     "web-component-tester": "^5.0.0",

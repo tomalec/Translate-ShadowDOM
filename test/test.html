@@ -7,7 +7,7 @@
 
     <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
     <script src="../bower_components/web-component-tester/browser.js"></script>
-    <script src="../shadowdom-v1-to-v0.js"></script>
+    <script src="../translate-shadowdom.js"></script>
 </head>
 
 <body>
@@ -42,7 +42,7 @@
 
 
     <script>
-    describe('ShadowDOMV1toV0.replaceSlotsWithContent', function () {
+    describe('TranslateShadowDOM.replaceSlotsWithContent', function () {
 
         var shadowDOMV1;
         var compositionString = document.getElementById('toBeLoadedAsDocFrag').textContent;
@@ -54,18 +54,18 @@
         it('should replace slots them with applicable content tags', function () {
             let sanitizingDiv = document.createElement('div');
             sanitizingDiv.appendChild(document.importNode(shadowDOMV1, true));
-            ShadowDOMV1toV0.replaceSlotsWithContent(sanitizingDiv);
+            TranslateShadowDOM.v1tov0.fragment(sanitizingDiv);
             expect(sanitizingDiv.innerHTML.trim()).to.equal(referenceElement.innerHTML.trim());
         });
 
     });
-    describe('ShadowDOMV1toV0.replaceSlotsWithContentInString', function () {
+    describe('TranslateShadowDOM.replaceSlotsWithContentInString', function () {
         var compositionString = document.getElementById('toBeLoadedAsString').textContent;
         var referenceElement = document.querySelector('#reference-composition');
 
         it('should replace slots them with applicable content tags', function () {
             let sanitizingDiv = document.createElement('div');
-            sanitizingDiv.innerHTML = ShadowDOMV1toV0.replaceSlotsWithContentInString(compositionString);
+            sanitizingDiv.innerHTML = TranslateShadowDOM.v1tov0.html(compositionString);
             expect(sanitizingDiv.innerHTML.trim()).to.equal(referenceElement.innerHTML.trim());
         });
 
