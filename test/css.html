@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+    <script src="../bower_components/web-component-tester/browser.js"></script>
+    <script src="../shadowdom-v1-to-v0.js"></script>
+</head>
+
+<body>
+    <style id="toBeLoadedAsString" type="text/html">
+    #i1::slotted(.foo) {
+       color: green;
+    }
+    #i1::slotted(.foo .bar),
+    .class::slotted(*) {
+       color: green;
+    }
+    .foo ::slotted(.bar){
+       color: green;
+    }
+    </style>
+    <style id="reference" type="text/html">
+    #i1::content .foo {
+       color: green;
+    }
+    #i1::content .foo .bar,
+    .class::content * {
+       color: green;
+    }
+    .foo ::content .bar{
+       color: green;
+    }
+    </style>
+
+
+    <script>
+    describe('ShadowDOMV1toV0.replaceSlottedWithContent', function () {
+
+        var styles = document.getElementById('toBeLoadedAsString').textContent;
+        var referenceElement = document.querySelector('#reference').textContent;
+
+        it('should replace slots them with applicable content tags', function () {
+
+            expect(ShadowDOMV1toV0.replaceSlottedWithContent(styles).trim()).to.equal(referenceElement.trim());
+        });
+
+    });
+    </script>
+
+</body>
+
+</html>

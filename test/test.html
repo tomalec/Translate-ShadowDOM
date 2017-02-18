@@ -11,19 +11,6 @@
 </head>
 
 <body>
-    <test-fixture id="toBeLoadedAsDocFrag">
-        <template>
-    <template>
-        <h2>Custom Shadow DOM composition</h2>
-		<slot name="my-slot"></slot>
-		<slot name='my-slot'></slot>
-		<slot></slot>
-		<slot    name="my-slot"    ></slot>
-		<slot       ></slot   >
-		<slot foo="bar" name="my-slot" baz></slot>
-    </template>
-        </template>
-    </test-fixture>
     <template id="reference-composition">
 		<h2>Custom Shadow DOM composition</h2>
 		<content name="my-slot" select="[slot='my-slot']"></content>
@@ -62,7 +49,7 @@
         var referenceElement = document.querySelector('#reference-composition');
 
         beforeEach(function () {
-            shadowDOMV1 = fixture('toBeLoadedAsDocFrag').content;
+            shadowDOMV1 = document.getElementById('toBeLoadedAsDocFrag').content;
         });
         it('should replace slots them with applicable content tags', function () {
             let sanitizingDiv = document.createElement('div');

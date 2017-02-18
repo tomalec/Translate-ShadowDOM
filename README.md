@@ -47,7 +47,8 @@ So, it would get rendered as you would expect in V1:
 
  - Translates strings,
  - Modifies `DocumentFragment`s,
- - Preserves attributes
+ - Preserves attributes,
+ - Translates CSS
 
 ## Install
 
@@ -69,7 +70,7 @@ Or [download as ZIP](https://github.com/Starcounter/shadowdom-v1-to-v0/archive/m
 
 #### ShadowDOMV1toV0.replaceSlotsWithContentInString(_String_ `compositionString`) : _String_
 
-Translates the HTML given in string.
+Translates the HTML given in string, replacing all `<slot name="foo">smth</slot>` with `<content select="[slot='foo']">smth</content>`
 
 #### ShadowDOMV1toV0.replaceSlotWithContent(_HTMLElement_ `slot`) : _ContentElement_
 
@@ -78,6 +79,10 @@ Replaces given `SlotElement` (or `UnknownElement` `<slot>`) with ContentElement 
 #### ShadowDOMV1toV0.replaceSlotsWithContent(_HTMLElement | DocumentFragment_ `root`) : _HTMLElement | DocumentFragment_
 
 Replaces all `SlotElement`s (or `UnknownElement`s `<slot>`) with `ContentElement`s (`<content>`) in given `root`
+
+#### ShadowDOMV1toV0.replaceSlottedWithContent(_String_ `styleString`) : _String_
+
+Replaces `::slotted(.foo)` with `::content .foo` in given string.
 
 ## Test suite
 

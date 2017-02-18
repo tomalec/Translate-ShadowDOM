@@ -56,6 +56,14 @@ const ShadowDOMV1toV0 = {
             }
         }
         return root;
+    },
+    /**
+    * Replaces all ::slotted() tags with ::content
+    * @param  {String} string stringified CSS
+    * @return {String}        translated CSS
+    */
+    replaceSlottedWithContent: function(string) {
+        return string.replace(/::slotted\(([^\)]*)\)/gi,'::content $1');
     }
 
 }
