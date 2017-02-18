@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <style id="toBeLoadedAsString" type="text/html">
+    <style id="v1" type="text/html">
     #i1::slotted(.foo) {
        color: green;
     }
@@ -23,7 +23,7 @@
        color: green;
     }
     </style>
-    <style id="reference" type="text/html">
+    <style id="v0" type="text/html">
     #i1::content .foo {
        color: green;
     }
@@ -40,12 +40,23 @@
     <script>
     describe('TranslateShadowDOM.v1tov0.css', function () {
 
-        var styles = document.getElementById('toBeLoadedAsString').textContent;
-        var referenceElement = document.querySelector('#reference').textContent;
+        var styles = document.getElementById('v1').textContent;
+        var reference = document.getElementById('v0').textContent;
 
         it('should replace slots them with applicable content tags', function () {
 
-            expect(TranslateShadowDOM.v1tov0.css(styles).trim()).to.equal(referenceElement.trim());
+            expect(TranslateShadowDOM.v1tov0.css(styles).trim()).to.equal(reference.trim());
+        });
+
+    });
+    describe('TranslateShadowDOM.v0tov1.css', function () {
+
+        var styles = document.getElementById('v0').textContent;
+        var reference = document.getElementById('v1').textContent;
+
+        it('should replace slots them with applicable content tags', function () {
+
+            expect(TranslateShadowDOM.v0tov1.css(styles).trim()).to.equal(reference.trim());
         });
 
     });

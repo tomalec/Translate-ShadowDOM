@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+    <script src="../bower_components/web-component-tester/browser.js"></script>
+    <script src="../translate-shadowdom.js"></script>
+</head>
+
+<body>
+    <!-- V1 to V0 -->
+    <template id="v1tov0">
+        <h2>Custom Shadow DOM composition</h2>
+        <content name="my-slot" select="[slot='my-slot']"></content>
+        <content name='my-slot' select="[slot='my-slot']"></content>
+        <content></content>
+        <content name="my-slot" select="[slot='my-slot']"></content>
+        <content></content>
+        <content foo="bar" name="my-slot" baz select="[slot='my-slot']"></content>
+    </template>
+
+    <template id="v1">
+        <h2>Custom Shadow DOM composition</h2>
+        <slot name="my-slot"></slot>
+        <slot name='my-slot'></slot>
+        <slot></slot>
+        <slot    name="my-slot"    ></slot>
+        <slot       ></slot   >
+        <slot foo="bar" name="my-slot" baz></slot>
+    </template>
+    <script id="v1-string" type="text/html">
+        <h2>Custom Shadow DOM composition</h2>
+        <slot name="my-slot"></slot>
+        <slot name='my-slot'></slot>
+        <slot></slot>
+        <slot    name="my-slot"    ></slot>
+        <slot       ></slot   >
+        <slot foo="bar" name="my-slot" baz></slot>
+    </script>
+
+
+
+    <script>
+    describe('TranslateShadowDOM.v1tov0.fragment', function () {
+
+        var fragment;
+        var referenceElement = document.querySelector('#v1tov0');
+
+        beforeEach(function () {
+            fragment = document.getElementById('v1').content;
+        });
+        it('should replace slots them with applicable content tags', function () {
+            let sanitizingDiv = document.createElement('div');
+            sanitizingDiv.appendChild(document.importNode(fragment, true));
+            TranslateShadowDOM.v1tov0.fragment(sanitizingDiv);
+            expect(sanitizingDiv.innerHTML.trim()).to.equal(referenceElement.innerHTML.trim());
+        });
+
+    });
+    describe('TranslateShadowDOM.v1tov0.html', function () {
+        var htmlString = document.getElementById('v1-string').textContent;
+        var referenceElement = document.querySelector('#v1tov0');
+
+        it('should replace slots them with applicable content tags', function () {
+            let sanitizingDiv = document.createElement('div');
+            sanitizingDiv.innerHTML = TranslateShadowDOM.v1tov0.html(htmlString);
+            expect(sanitizingDiv.innerHTML.trim()).to.equal(referenceElement.innerHTML.trim());
+        });
+
+    });
+    </script>
+
+</body>
+
+</html>

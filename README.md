@@ -1,7 +1,8 @@
 # Translate-ShadowDOM [![Build Status](https://travis-ci.org/tomalec/Translate-ShadowDOM.svg?branch=master)](https://travis-ci.org/tomalec/Translate-ShadowDOM)
 
-Set of utilities to transform Shadow DOM v1 to v0.
-Usefull when writing "hybrid" Web Components which are V1 ready, but run in v0 environment/polyfill
+Set of utilities to translate between Shadow DOM v0 and v1 (both ways).
+Usefull, when writing "hybrid" Web Components which are V1 ready, but run in V0 environment/polyfill;
+or when runnung legacy code in V1 environment.
 
 
 ### Small sample
@@ -59,6 +60,7 @@ So, it would get rendered as you would expect in V1:
  - Modifies `DocumentFragment`s,
  - Preserves attributes,
  - Translates CSS
+ - works both ways between V0 and V1
 
 ## Install
 
@@ -78,13 +80,15 @@ Or [download as ZIP](https://github.com/Starcounter/translate-shadowdom/archive/
 
 ## API
 
+### V1 to V0
+
 #### TranslateShadowDOM.v1tov0.html(_String_ `compositionString`) : _String_
 
 Translates the HTML given in string, replacing all `<slot name="foo">smth</slot>` with `<content name="foo" select="[slot='foo']">smth</content>`
 
 #### TranslateShadowDOM.v1tov0.slot(_HTMLElement_ `slot`) : _ContentElement_
 
-Replaces given `SlotElement` (or `UnknownElement` `<slot>`) with ContentElement (`<content>`).
+Replaces given `SlotElement` (or `UnknownElement` `<slot>`) with `ContentElement` (`<content>`).
 
 #### TranslateShadowDOM.v1tov0.fragment(_HTMLElement | DocumentFragment_ `root`, _Boolean_ `withStyle`) : _HTMLElement | DocumentFragment_
 
@@ -94,6 +98,29 @@ If `withStyle` is set to true, will also translate CSS selectors in enclosed `<s
 #### TranslateShadowDOM.v1tov0.css(_String_ `styleString`) : _String_
 
 Replaces `::slotted(.foo)` with `::content .foo` in given string.
+
+### V0 to V1
+
+#### TranslateShadowDOM.v0tov1.html(_String_ `compositionString`) : _String_
+
+Translates the HTML given in string, replacing all `<content select="[slot='foo']">smth</content>` with `<slot name="foo">smth</slot>`
+
+#### TranslateShadowDOM.v0tov1.content(_HTMLElement_ `content`) : _SlotElement_
+
+Replaces given `ContentElement` (or `UnknownElement` `<content>`) with `SlotElement` (`<slot>`).
+It preserves all attributes **except** `name`.
+If selector cannot be directly translated to slot name, default slot would be created.
+
+#### TranslateShadowDOM.v0tov1.fragment(_HTMLElement | DocumentFragment_ `root`, _Boolean_ `withStyle`) : _HTMLElement | DocumentFragment_
+
+Replaces all `ContentElement`s (or `UnknownElement`s `<content>`) with `SlotElement`s (`<slot>`) in given `root`.
+It preserves all attributes **except** `name`.
+If selector cannot be directly translated to slot name, default slot would be created.
+If `withStyle` is set to true, will also translate CSS selectors in enclosed `<style>` elements.
+
+#### TranslateShadowDOM.v0tov1.css(_String_ `styleString`) : _String_
+
+Replaces `::content .foo` with `::slotted(.foo)` in given string.
 
 ## Test suite
 
