@@ -29,6 +29,7 @@
     "webcomponents.js": "^0.7.23"
   },
   "scripts": {
-    "test": "wct"
+    "test": "wct",
+    "gh-pages": "git checkout gh-pages && bower update translate-shadowdom && git add bower_components/ && git commit -m 'Update translate-shadowdom' && git status"
   }
 }
