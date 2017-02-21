@@ -5,25 +5,24 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
-    <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
     <script src="../bower_components/web-component-tester/browser.js"></script>
     <script src="../translate-shadowdom.js"></script>
 </head>
 
 <body>
     <!-- V0 to V1 -->
-    <script id="v0-string" type="text/html">
+    <noscript id="v0-string" type="text/noparse">
         a = element.createShadowRoot();
         a = element.createShadowRoot(    )
         var a = element.createShadowRoot(           );
         var a = element.createshadowRoot(           );
-    </script>
-    <script id="v1-result" type="text/html">
+    </noscript>
+    <noscript id="v1-result" type="text/noparse">
         a = element.attachShadow({mode: 'open'});
         a = element.attachShadow({mode: 'open'})
         var a = element.attachShadow({mode: 'open'});
         var a = element.createshadowRoot(           );
-    </script>
+    </noscript>
 
 
     <script>

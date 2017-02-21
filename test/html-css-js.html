@@ -37,7 +37,7 @@
 
 
     <template id="reference-composition-script">
-        <script>
+        <script type="text/noparse">
             var sroot = createShadowRoot();
         </script>
         <h2>Shadow DOM prepared for V1</h2>
@@ -45,7 +45,7 @@
     </template>
 
     <template id="toBeLoadedAsDocFrag-script">
-        <script>
+        <script type="text/noparse">
             var sroot = attachShadow({mode: 'open'});
         </script>
         <h2>Shadow DOM prepared for V1</h2>
@@ -81,7 +81,6 @@
         it('should replace attachShadow with createShadowRoot in script tags', function () {
             let sanitizingDiv = document.createElement('div');
             sanitizingDiv.appendChild(document.importNode(shadowDOMV1, true));
-            debugger
             TranslateShadowDOM.v1tov0.fragment(sanitizingDiv, false, true);
             expect(sanitizingDiv.innerHTML.trim()).to.equal(referenceElement.innerHTML.trim());
         });
