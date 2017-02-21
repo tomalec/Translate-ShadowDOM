@@ -72,6 +72,14 @@ const TranslateShadowDOM = {
         */
         css: function(string) {
             return string.replace(/::slotted\(([^\)]*)\)/gi,'::content $1');
+        },
+        /**
+        * Replaces all `attachShadow(*)` with `createShadowRoot()`.
+        * @param  {String} string stringified JS
+        * @return {String}        translated JS
+        */
+        js: function(string){
+            return string.replace(/attachShadow\([^\)]*\)/gi, 'createShadowRoot()');
         }
     },
     /**
@@ -145,6 +153,14 @@ const TranslateShadowDOM = {
         */
         css: function(string) {
             return string.replace(/::content\s*([^,{]*?)(\s*[,{])/gi,'::slotted($1)$2');
+        },
+        /**
+        * Replaces all `createShadowRoot()` tags with `attachShadow({mode:'open'})`.
+        * @param  {String} string stringified JS
+        * @return {String}        translated JS
+        */
+        js: function(string){
+            return string.replace(/createShadowRoot\(\s*\)/gi, 'attachShadow({mode: \'open\'})');
         }
     }
 }

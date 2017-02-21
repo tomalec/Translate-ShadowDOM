@@ -61,7 +61,7 @@ So, it would get rendered as you would expect in V1:
  - Translates strings,
  - Modifies `DocumentFragment`s,
  - Preserves attributes,
- - Translates CSS
+ - Translates HTML, CSS and basic JS
  - works both ways between V0 and V1
 
 ## Install
