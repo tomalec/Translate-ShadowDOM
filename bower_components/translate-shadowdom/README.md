@@ -92,10 +92,11 @@ Translates the HTML given in string, replacing all `<slot name="foo">smth</slot>
 
 Replaces given `SlotElement` (or `UnknownElement` `<slot>`) with `ContentElement` (`<content>`).
 
-#### TranslateShadowDOM.v1tov0.fragment(_HTMLElement | DocumentFragment_ `root`, _Boolean_ `withStyle`) : _HTMLElement | DocumentFragment_
+#### TranslateShadowDOM.v1tov0.fragment(_HTMLElement | DocumentFragment_ `root`, _Boolean_ `withStyle`, _Boolean_ `withScript`) : _HTMLElement | DocumentFragment_
 
 Replaces all `SlotElement`s (or `UnknownElement`s `<slot>`) with `ContentElement`s (`<content>`) in given `root`.
 If `withStyle` is set to true, will also translate CSS selectors in enclosed `<style>` elements.
+If `withScript` is set to true, will also translate JS code in enclosed `<script>` elements.
 
 #### TranslateShadowDOM.v1tov0.css(_String_ `styleString`) : _String_
 
@@ -113,12 +114,13 @@ Replaces given `ContentElement` (or `UnknownElement` `<content>`) with `SlotElem
 It preserves all attributes **except** `name`.
 If selector cannot be directly translated to slot name, default slot would be created.
 
-#### TranslateShadowDOM.v0tov1.fragment(_HTMLElement | DocumentFragment_ `root`, _Boolean_ `withStyle`) : _HTMLElement | DocumentFragment_
+#### TranslateShadowDOM.v0tov1.fragment(_HTMLElement | DocumentFragment_ `root`, _Boolean_ `withStyle`, _Boolean_ `withScript`) : _HTMLElement | DocumentFragment_
 
 Replaces all `ContentElement`s (or `UnknownElement`s `<content>`) with `SlotElement`s (`<slot>`) in given `root`.
 It preserves all attributes **except** `name`.
 If selector cannot be directly translated to slot name, default slot would be created.
 If `withStyle` is set to true, will also translate CSS selectors in enclosed `<style>` elements.
+If `withScript` is set to true, will also translate JS code in enclosed `<script>` elements.
 
 #### TranslateShadowDOM.v0tov1.css(_String_ `styleString`) : _String_
 
