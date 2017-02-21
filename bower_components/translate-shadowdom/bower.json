@@ -1,0 +1,32 @@
+{
+  "name": "translate-shadowdom",
+  "description": "Set of utilities to translate Shadow DOM v1 to v0",
+  "main": "translate-shadowdom.js",
+  "authors": [
+    "Tomek Wytrebowicz"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "web",
+    "components",
+    "shadow",
+    "dom",
+    "shadow",
+    "W3C",
+    "Polymer",
+    "polyfill",
+    "v1"
+  ],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "web-component-tester": "^5.0.0",
+    "webcomponentsjs": "webcomponents.js#^0.7.24"
+  }
+}

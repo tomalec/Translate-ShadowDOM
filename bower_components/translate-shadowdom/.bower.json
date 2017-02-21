@@ -1,0 +1,42 @@
+{
+  "name": "translate-shadowdom",
+  "description": "Set of utilities to translate Shadow DOM v1 to v0",
+  "main": "translate-shadowdom.js",
+  "authors": [
+    "Tomek Wytrebowicz"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "web",
+    "components",
+    "shadow",
+    "dom",
+    "shadow",
+    "W3C",
+    "Polymer",
+    "polyfill",
+    "v1"
+  ],
+  "homepage": "https://github.com/tomalec/Translate-ShadowDOM",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "web-component-tester": "^5.0.0",
+    "webcomponentsjs": "webcomponents.js#^0.7.24"
+  },
+  "_release": "e5e32b869a",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "e5e32b869a961719f4a94711c643b4df13a08196"
+  },
+  "_source": "https://github.com/tomalec/Translate-ShadowDOM.git",
+  "_target": "*",
+  "_originalSource": "tomalec/Translate-ShadowDOM",
+  "_direct": true
+}

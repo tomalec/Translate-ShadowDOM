@@ -1,0 +1,23 @@
+{
+  "name": "translate-shadowdom-online",
+  "version": "0.0.0",
+  "authors": [
+    "Tomek Wytrebowicz <tomalecpub@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "private": true,
+  "dependencies": {
+    "translate-shadowdom": "^0.0.1",
+    "polymer": "^1.8.0",
+    "juicy-ace-editor": "^2.0.0",
+    "iron-ajax": "^1.4.3",
+    "paper-toggle-button": "^1.3.0"
+  }
+}

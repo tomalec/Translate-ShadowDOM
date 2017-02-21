@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <title>Translate-ShadowDOM</title>
+
+</head>
+
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Translate-ShadowDOM</h1>
+            <h2>
+          Translates your HTML and CSS both ways between Shadow DOM V0 and V1.
+          <br>
+          Works for strings and document fragments, as a module or online editor.
+        </h2>
+
+            <section id="downloads">
+                <a href="https://github.com/tomalec/Translate-ShadowDOM" class="btn btn-github"><span class="icon"></span>View full docs and more on GitHub</a>
+            </section>
+        </div>
+    </header>
+
+    <div class="container">
+        <section id="main_content">
+            <p>
+                The migration between Shadow DOM V0 and V1 may be a painful task, especialy in large projects.
+            </p>
+
+            <p>
+                So, I wrote <code>Translate-ShadowDOM</code> to automate many of the steps involved in upgrading.
+                <code>Translate-ShadowDOM</code> works for string as well as full DOM <code>DocumentFragment</code>.
+                That's why, you can use it as a tool to migrate you code base, as well as call it in runtime,
+                to addapt to unknown environment.
+            </p>
+
+            <p>
+                For example, you can use it to prepare you web components in V1 syntax and still make them work with old V0 Polyfills.
+                Or otherwise, you can use it in V1 environment to support some legacy code.
+                You will be able to make your vanilla JS custom elements "hybrid" like Polymer ones.
+            </p>
+
+            <p>Install it with <code>npm install --save Translate-ShadowDOM</code> or <code>bower install --save Translate-ShadowDOM</code></p>
+            <p>
+                Then use the <a href='https://github.com/tomalec/Translate-ShadowDOM/blob/master/README.md#API'>API</a>, 
+                for example: <code>TranslateShadowDOM.v0tov1.fragment(myTemplate.content);</code>
+            </p>
+
+            <p>
+                Check out the <a href='https://github.com/tomalec/Translate-ShadowDOM/blob/master/README.md'>
+          README on github</a> for a complete list of current and planned transformations, or check out the online migration demo bellow.
+            </p>
+        </section>
+    </div>
+
+    <script src='bower_components/webcomponentsjs/webcomponents.js'></script>
+    <link rel='import' href='local_components/Translate-ShadowDOM-migrate.html'>
+
+    <Translate-ShadowDOM-migrate></Translate-ShadowDOM-migrate>
+
+</body>
+
+</html>

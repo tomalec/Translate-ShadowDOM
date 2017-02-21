@@ -1,0 +1,202 @@
+<link rel='import' href='../bower_components/polymer/polymer.html'>
+<link rel='import' href='../bower_components/juicy-ace-editor/juicy-ace-editor.html'>
+<link rel='import' href='../bower_components/iron-ajax/iron-ajax.html'>
+<link rel='import' href='../bower_components/paper-toggle-button/paper-toggle-button.html'>
+<link rel='import' href='../bower_components/translate-shadowdom/translate-shadowdom.html'>
+
+
+<dom-module id='Translate-ShadowDOM-migrate'>
+    <style>
+         :host {
+            max-width: 100%;
+        }
+
+        #left {
+            display: inline-block;
+            width: 50%;
+        }
+
+        #right {
+            display: inline-block;
+            width: 50%;
+            float: right;
+        }
+
+        #right>* {
+            box-sizing: border-box;
+            margin-left: 20px;
+        }
+
+        #editor0,
+        #editor1 {
+            width: 100%;
+            min-height: 500px;
+        }
+
+        #wrapper {
+            /*margin: 20px;*/
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        #toggle{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+
+        .output .ace_cursor {
+            display: none;
+        }
+
+        label {
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .errorMessage {
+            color: #C15454
+        }
+
+        paper-toggle-button{
+            display: inline-flex;
+            margin-left: 8px;
+            vertical-align: middle;
+            --paper-toggle-button-checked-bar-color:  white;
+            --paper-toggle-button-unchecked-bar-color:  white;
+            --paper-toggle-button-checked-button-color:  white;
+            --paper-toggle-button-checked-ink-color: white;
+            --paper-toggle-button-label-color: #eaeaea;
+        }
+
+    </style>
+    <template>
+    <div id='wrapper'>
+        <div id="toggle">
+            V0 to V1<paper-toggle-button checked="{{!v0tov1}}">V1 to V0</paper-toggle-button>
+        </div>
+      <div id='left'>
+        <label>V0 <template is="dom-if" if="{{v0tov1}}">input</template><template is="dom-if" if="{{!v0tov1}}">output</template></label>
+        <select id="select0" value='{{selectedSample::input}}' hidden="{{!v0tov1}}">
+          <option value="samples/v0/readme.html" selected>
+            README example
+          </option>
+        </select>
+        <iron-ajax auto url='{{selectedSample}}' handle-as='text'
+                   last-response='{{v0}}'>
+        </iron-ajax>
+        <juicy-ace-editor id="editor0"
+          theme="ace/theme/monokai"
+          mode="ace/mode/html"
+          setTabSize="2"
+          readonly$="{{!v0tov1}}"
+          wrapmode
+          value="[[v0]]"
+          ></juicy-ace-editor>
+      </div>
+      <div id='right'>
+        <label>V1 <template is="dom-if" if="{{!v0tov1}}">input</template><template is="dom-if" if="{{v0tov1}}">output</template></label>
+        <span class='errorMessage'>{{errorMessage}}</span>
+        <select id="select1" value='{{selectedSample::input}}' hidden="{{v0tov1}}">
+          <option value="samples/v1/tabs.html" selected>
+            Simple tabs
+          </option>
+        </select>
+        <iron-ajax auto url='{{selectedSample}}' handle-as='text'
+                   last-response='{{v1}}'>
+        </iron-ajax>
+        <juicy-ace-editor id="editor1"
+          theme="ace/theme/monokai"
+          mode="ace/mode/html"
+          readonly$="{{v0tov1}}"
+          wrapmode
+          value="[[v1]]"
+          ></juicy-ace-editor>
+      </div>
+    </div>
+  </template>
+</dom-module>
+<script>
+    Polymer({
+        is: 'Translate-ShadowDOM-migrate',
+        properties: {
+            v0: {
+                observer: '_editor0InputChanged'
+            },
+            v1: {
+                observer: '_editor1InputChanged'
+            },
+            v0tov1: {
+                type: Boolean,
+                value: true,
+                observer: '_directionChanged'
+            }
+        },
+        ready: function() {
+            console.log('dirchanged');
+            var v0editor = this.$.editor0;
+            this.v0editor = v0editor;
+            v0editor.editor.$blockScrolling = Infinity;
+
+            var v1editor = this.$.editor1;
+            this.v1editor = v1editor;
+            v1editor.editor.$blockScrolling = Infinity;
+
+            var self = this;
+
+            function onChange(){
+                let output = self.output;
+                let scrollPos = output.editor.getSession().getScrollTop();
+                // Need to delay this because ace assumes that the onchange handler
+                // will be very fast, otherwise it drops some keyboard events, and
+                // in general behaves *very* strange.
+                requestAnimationFrame(function() {
+                    try {
+                        var outputVal = TranslateShadowDOM[self.namespace].html(
+                            TranslateShadowDOM[self.namespace].css(self.input.value)
+                        );
+                    } catch (e) {
+                        self.errorMessage = e.message || e.toString();
+                        return;
+                    }
+                    self.errorMessage = '';
+                    output.value = outputVal;
+                    output.editor.clearSelection()
+                    output.editor.getSession().setScrollTop(scrollPos);
+                });
+            }
+            this.listener = onChange;
+            // v0editor.addEventListener('change', onChange);
+            // v1editor.addEventListener('change', onChange(v1editor, v0editor, 'v1tov0'));
+            this.selectedSample = this.$.select0.value;
+            this._directionChanged();
+        },
+        _directionChanged: function(){
+            if(!this.v0editor || !this.v1editor){
+                return ;
+            }
+            if(this.v0tov1){
+                this.input = this.v0editor;
+                this.output = this.v1editor;
+                this.namespace = 'v0tov1';
+            } else {
+                this.input = this.v1editor;
+                this.output = this.v0editor;
+                this.namespace = 'v1tov0';
+            }
+            this.output.removeEventListener('change', this.listener);
+            this.input.addEventListener('change', this.listener);
+        },
+        _editor0InputChanged: function() {
+            this.v0editor.editor.clearSelection();
+            this.v0editor.editor.scrollToLine(0);
+            this.v1editor.editor.scrollToLine(0);
+        },
+        _editor1InputChanged: function() {
+            this.v1editor.editor.clearSelection();
+            this.v1editor.editor.scrollToLine(0);
+            this.v0editor.editor.scrollToLine(0);
+        }
+    })
+</script>
