@@ -3,7 +3,7 @@
  * Usefull when writing "hybrid" Web Components which are V1 redy,
  * but run in v0 environment/polyfill
  * @license MIT
- * @version: 0.0.1
+ * @version: 0.0.2
  */
 const TranslateShadowDOM = {
     /**

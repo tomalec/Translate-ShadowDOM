@@ -1,6 +1,6 @@
 {
   "name": "translate-shadowdom",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Set of utilities to transform Shadow DOM v1 to v0",
   "homepage": "https://github.com/tomalec/Translate-ShadowDOM",
   "keywords": [
