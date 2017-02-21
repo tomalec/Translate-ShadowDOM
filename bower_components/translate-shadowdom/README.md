@@ -4,6 +4,8 @@ Set of utilities to translate between Shadow DOM v0 and v1 (both ways).
 Usefull, when writing "hybrid" Web Components which are V1 ready, but run in V0 environment/polyfill;
 or when runnung legacy code in V1 environment.
 
+### [Live Demo](https://tomalec.github.io/Translate-ShadowDOM/)
+[![Online Translator](https://raw.githubusercontent.com/tomalec/Translate-ShadowDOM/master/demo.gif)](https://tomalec.github.io/Translate-ShadowDOM/)
 
 ### Small sample
 
@@ -59,7 +61,7 @@ So, it would get rendered as you would expect in V1:
  - Translates strings,
  - Modifies `DocumentFragment`s,
  - Preserves attributes,
- - Translates CSS
+ - Translates HTML, CSS and basic JS
  - works both ways between V0 and V1
 
 ## Install

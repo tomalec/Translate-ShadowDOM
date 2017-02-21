@@ -14,7 +14,7 @@
   ],
   "private": true,
   "dependencies": {
-    "translate-shadowdom": "^0.0.1",
+    "translate-shadowdom": "~0.0.1",
     "polymer": "^1.8.0",
     "juicy-ace-editor": "^2.0.0",
     "iron-ajax": "^1.4.3",

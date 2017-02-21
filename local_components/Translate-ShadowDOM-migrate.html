@@ -40,10 +40,16 @@
             flex-wrap: wrap;
         }
 
-        #toggle{
+        .toggle{
             width: 100%;
             display: flex;
+        }
+        .toggle > span{
+            flex: 1;
             justify-content: center;
+        }
+        .toggle span:first-child{
+            text-align: right;
         }
 
 
@@ -73,8 +79,13 @@
     </style>
     <template>
     <div id='wrapper'>
-        <div id="toggle">
-            V0 to V1<paper-toggle-button checked="{{!v0tov1}}">V1 to V0</paper-toggle-button>
+        <div class="toggle">
+            <span title="translates all occurences in given string">as a <code>String</code></span>
+            <paper-toggle-button checked="{{!asString}}"></paper-toggle-button>
+            <span title="parse it as DOM and respect parsing contexts">as a <code>DocumentFragment</code></span>
+        </div>
+        <div class="toggle">
+            <span>V0 to V1</span><paper-toggle-button checked="{{!v0tov1}}"></paper-toggle-button><span>V1 to V0</span>
         </div>
       <div id='left'>
         <label>V0 <template is="dom-if" if="{{v0tov1}}">input</template><template is="dom-if" if="{{!v0tov1}}">output</template></label>
@@ -153,9 +164,18 @@
                 // in general behaves *very* strange.
                 requestAnimationFrame(function() {
                     try {
-                        var outputVal = TranslateShadowDOM[self.namespace].html(
-                            TranslateShadowDOM[self.namespace].css(self.input.value)
-                        );
+                        if(self.asString){
+                            var outputVal = TranslateShadowDOM[self.namespace].html(
+                                TranslateShadowDOM[self.namespace].css(
+                                    TranslateShadowDOM[self.namespace].js(self.input.value)
+                                )
+                            );
+                        } else {
+                            var sanitizer = document.createElement('div');
+                            sanitizer.innerHTML = self.input.value;
+                            TranslateShadowDOM[self.namespace].fragment(sanitizer, true, true);
+                            var outputVal = sanitizer.innerHTML;
+                        }
                     } catch (e) {
                         self.errorMessage = e.message || e.toString();
                         return;
