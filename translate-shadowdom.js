@@ -48,9 +48,10 @@ const TranslateShadowDOM = {
         * Replace all <slot> elements with <content> elements i given document fragment
         * @param  {Documentfragment|Node} root scope. Will be changed.
         * @param  {Boolean}                 withStyle should enclosed `style` tags be also translated
+        * @param  {Boolean}                 withScript should enclosed `script` tags be also translated
         * @return {Documentfragment|Node}      modified scope
         */
-        fragment: function(root, withStyle) {
+        fragment: function(root, withStyle, withScript) {
             if (root.firstChild) {
                 var node = root.firstChild;
                 while (node) {
@@ -59,6 +60,8 @@ const TranslateShadowDOM = {
                         node = TranslateShadowDOM.v1tov0.slot(node);
                     } else if (withStyle && node.localName === 'style') {
                         node.textContent = TranslateShadowDOM.v1tov0.css(node.textContent);
+                    } else if (withScript && node.localName === 'script') {
+                        node.textContent = TranslateShadowDOM.v1tov0.js(node.textContent);
                     }
                     node = next;
                 }
@@ -79,7 +82,7 @@ const TranslateShadowDOM = {
         * @return {String}        translated JS
         */
         js: function(string){
-            return string.replace(/attachShadow\([^\)]*\)/gi, 'createShadowRoot()');
+            return string.replace(/attachShadow\([^\)]*\)/g, 'createShadowRoot()');
         }
     },
     /**
@@ -129,9 +132,10 @@ const TranslateShadowDOM = {
         * Replace all <slot> elements with <content> elements i given document fragment.
         * @param  {Documentfragment|Node} root scope. Will be changed.
         * @param  {Boolean}                 withStyle should enclosed `style` tags be also translated
+        * @param  {Boolean}                 withStyle should enclosed `script` tags be also translated
         * @return {Documentfragment|Node}      modified scope
         */
-        fragment: function(root, withStyle) {
+        fragment: function(root, withStyle, withScript) {
             if (root.firstChild) {
                 var node = root.firstChild;
                 while (node) {
@@ -140,6 +144,8 @@ const TranslateShadowDOM = {
                         node = TranslateShadowDOM.v0tov1.content(node);
                     } else if (withStyle && node.localName === 'style') {
                         node.textContent = TranslateShadowDOM.v0tov1.css(node.textContent);
+                    } else if (withScript && node.localName === 'script') {
+                        node.textContent = TranslateShadowDOM.v0tov1.js(node.textContent);
                     }
                     node = next;
                 }
@@ -160,7 +166,7 @@ const TranslateShadowDOM = {
         * @return {String}        translated JS
         */
         js: function(string){
-            return string.replace(/createShadowRoot\(\s*\)/gi, 'attachShadow({mode: \'open\'})');
+            return string.replace(/createShadowRoot\(\s*\)/g, 'attachShadow({mode: \'open\'})');
         }
     }
 }

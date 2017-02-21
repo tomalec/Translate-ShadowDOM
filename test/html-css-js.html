@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../bower_components/webcomponentsjs/webcomponents.js"></script>
+    <script src="../bower_components/web-component-tester/browser.js"></script>
+    <script src="../translate-shadowdom.js"></script>
+</head>
+
+<body>
+    <template id="reference-composition">
+        <style>
+            .foo,
+            ::content p,
+            .bar{
+                color: green;
+            }
+        </style>
+        <h2>Shadow DOM prepared for V1</h2>
+        <content name="my-slot" select="[slot='my-slot']"></content>
+    </template>
+
+    <template id="toBeLoadedAsDocFrag">
+        <style>
+            .foo,
+            ::slotted(p),
+            .bar{
+                color: green;
+            }
+        </style>
+        <h2>Shadow DOM prepared for V1</h2>
+        <slot name="my-slot"></slot>
+    </template>
+
+
+    <template id="reference-composition-script">
+        <script>
+            var sroot = createShadowRoot();
+        </script>
+        <h2>Shadow DOM prepared for V1</h2>
+        <content></content>
+    </template>
+
+    <template id="toBeLoadedAsDocFrag-script">
+        <script>
+            var sroot = attachShadow({mode: 'open'});
+        </script>
+        <h2>Shadow DOM prepared for V1</h2>
+        <slot></slot>
+    </template>
+
+
+    <script>
+    describe('TranslateShadowDOM.v1tov0.fragment(* , withStyle = true)', function () {
+
+        var shadowDOMV1;
+        var referenceElement = document.querySelector('#reference-composition');
+
+        beforeEach(function () {
+            shadowDOMV1 = document.getElementById('toBeLoadedAsDocFrag').content;
+        });
+        it('should replace slots them with applicable content tags and ::slotted with ::content in style tags', function () {
+            let sanitizingDiv = document.createElement('div');
+            sanitizingDiv.appendChild(document.importNode(shadowDOMV1, true));
+            TranslateShadowDOM.v1tov0.fragment(sanitizingDiv, true);
+            expect(sanitizingDiv.innerHTML.trim()).to.equal(referenceElement.innerHTML.trim());
+        });
+
+    });
+    describe('TranslateShadowDOM.v1tov0.fragment(* , *, withScript = true)', function () {
+
+        var shadowDOMV1;
+        var referenceElement = document.querySelector('#reference-composition-script');
+
+        beforeEach(function () {
+            shadowDOMV1 = document.getElementById('toBeLoadedAsDocFrag-script').content;
+        });
+        it('should replace attachShadow with createShadowRoot in script tags', function () {
+            let sanitizingDiv = document.createElement('div');
+            sanitizingDiv.appendChild(document.importNode(shadowDOMV1, true));
+            debugger
+            TranslateShadowDOM.v1tov0.fragment(sanitizingDiv, false, true);
+            expect(sanitizingDiv.innerHTML.trim()).to.equal(referenceElement.innerHTML.trim());
+        });
+
+    });
+    </script>
+
+</body>
+
+</html>
