@@ -22,6 +22,7 @@
         <slot select="[slot='my-slot']" name="my-slot"></slot>
         <slot select="[name='my-slot']"></slot>
         <slot select=".other-selector"></slot>
+        <div><slot select="[slot='nested-slot']" name="nested-slot"></slot></div>
     </template>
 
     <template id="v0">
@@ -34,6 +35,7 @@
         <content name="old-name" select="[slot='my-slot']"></content>
         <content select="[name='my-slot']"></content>
         <content select=".other-selector"></content>
+        <div><content select="[slot='nested-slot']"></content></div>
     </template>
     <script id="v0-string" type="text/html">
         <h2>Custom Shadow DOM composition</h2>
@@ -45,6 +47,7 @@
         <content name="old-name" select="[slot='my-slot']"></content>
         <content select="[name='my-slot']"></content>
         <content select=".other-selector"></content>
+        <div><content select="[slot='nested-slot']"></content></div>
     </script>
 
 
