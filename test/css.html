@@ -15,7 +15,7 @@
     #i1::slotted(.foo) {
        color: green;
     }
-    #i1::slotted(.foo .bar),
+    #i1::slotted(.foo),
     .class::slotted(*) {
        color: green;
     }
@@ -27,11 +27,33 @@
     #i1::content>.foo {
        color: green;
     }
-    #i1::content>.foo .bar,
+    #i1::content>.foo,
     .class::content>* {
        color: green;
     }
     .foo ::content>.bar{
+       color: green;
+    }
+    </style>
+    <style id="v0-not-compatible" type="text/html">
+    #i1::content .foo {
+       color: green;
+    }
+    #i1::content .foo .bar,
+    #i1::content>.foo .bar,
+    #i1::content>.foo+.bar,
+    #i1::content>.foo~.bar{
+       color: green;
+    }
+    </style>
+    <style id="v1-not-compatible" type="text/html">
+    #i1::slotted(.foo)/* FIXME V1 matches only direct children;*/ {
+       color: green;
+    }
+    #i1::slotted(.foo)/* FIXME V1 matches only direct children; V1 supports only compound selectors, selector skipped: .bar;*/,
+    #i1::slotted(.foo)/* FIXME V1 supports only compound selectors, selector skipped: .bar;*/,
+    #i1::slotted(.foo)/* FIXME V1 supports only compound selectors, selector skipped:+.bar;*/,
+    #i1::slotted(.foo)/* FIXME V1 supports only compound selectors, selector skipped:~.bar;*/{
        color: green;
     }
     </style>
@@ -43,7 +65,7 @@
         var styles = document.getElementById('v1').textContent;
         var reference = document.getElementById('v0').textContent;
 
-        it('should replace ::slotted them with applicable ::content', function () {
+        it('should replace ::slotted with applicable ::content>', function () {
 
             expect(TranslateShadowDOM.v1tov0.css(styles).trim()).to.equal(reference.trim());
         });
@@ -54,11 +76,35 @@
         var styles = document.getElementById('v0').textContent;
         var reference = document.getElementById('v1').textContent;
 
-        it('should replace ::content them with applicable ::slotted', function () {
-
+        it('should replace ::content> with applicable ::slotted', function () {
             expect(TranslateShadowDOM.v0tov1.css(styles).trim()).to.equal(reference.trim());
         });
+        it('should replace `::content > ` with applicable ::slotted', function () {
+            expect(TranslateShadowDOM.v0tov1.css('.selector ::content>.foo{color:green;}')).to.equal('.selector ::slotted(.foo){color:green;}');
+            expect(TranslateShadowDOM.v0tov1.css('.selector ::content > .foo{color:green;}')).to.equal('.selector ::slotted(.foo){color:green;}');
+            expect(TranslateShadowDOM.v0tov1.css('.selector ::content> .foo{color:green;}')).to.equal('.selector ::slotted(.foo){color:green;}');
+            expect(TranslateShadowDOM.v0tov1.css('.selector ::content >.foo{color:green;}')).to.equal('.selector ::slotted(.foo){color:green;}');
+            expect(TranslateShadowDOM.v0tov1.css('.selector ::content   >   .foo{color:green;}')).to.equal('.selector ::slotted(.foo){color:green;}');
+        });
+        describe('for not fully compatible selectors', function(){
+            beforeEach(function(){
+                styles = document.getElementById('v0-not-compatible').textContent;
+                reference = document.getElementById('v1-not-compatible').textContent;
+                sinon.spy(console, 'warn');
+            });
+            afterEach(function(){
+                console.warn.restore();
+            });
 
+            it('should replace ::content with applicable ::slotted and warnings in code comments', function () {
+                expect(TranslateShadowDOM.v0tov1.css(styles).trim()).to.equal(reference.trim());
+            });
+            it('should show warnings in the console', function () {
+                TranslateShadowDOM.v0tov1.css(styles);
+                expect(console.warn).to.be.called;
+                expect(console.warn.callCount).to.equal(5);
+            });
+        });
     });
     </script>
 

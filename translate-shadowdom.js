@@ -155,12 +155,28 @@ const TranslateShadowDOM = {
             return root;
         },
         /**
-        * Replaces all ::slotted() tags with ::content
+        * Replaces all ::content tags with ::slotted with warning if needed
         * @param  {String} string stringified CSS
         * @return {String}        translated CSS
         */
         css: function(string) {
-            return string.replace(/::content\s*>?\s*([^,{]*?)(\s*[,{])/gi,'::slotted($1)$2');
+            return string.replace(/::content\s*(>)?\s*([^,{\s]*?)([\+\s\~][^,{\s]+?)?(\s*[,{])/gi,
+                    function(match, direct, compound, complex, rest){
+                        let warning = '';
+                        if(!direct){
+                            warning += ' V1 matches only direct children;';
+                        }
+                        if(complex){
+                            warning += ' V1 supports only compound selectors, selector skipped:'+complex+';';
+                        }
+                        if(warning){
+                            console.warn('TranslateShadowDOM.v0tov1.css: ' + warning);
+                            return '::slotted(' + compound + ')/* FIXME' + warning + '*/' + rest;
+                        } else {
+                            return '::slotted(' + compound + ')' + rest;
+                        }
+                    });
+            ;
         },
         /**
         * Replaces all `createShadowRoot()` tags with `attachShadow({mode:'open'})`.

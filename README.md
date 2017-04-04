@@ -35,7 +35,7 @@ To get
 ```html
 <template>
     <style>
-        ::content p{
+        ::content>p{
             color: green;
         }
     </style>
@@ -125,6 +125,9 @@ If `withScript` is set to true, will also translate JS code in enclosed `<script
 #### TranslateShadowDOM.v0tov1.css(_String_ `styleString`) : _String_
 
 Replaces `::content .foo` with `::slotted(.foo)` in given string.
+Adds warnings in code comments if a selector cannot be translated in 100% compatible way,
+for example `#i1::content .foo+.bar` will be translated to
+`#i1::slotted(.foo)/* FIXME V1 matches only direct children; V1 supports only compound selectors, selector skipped:+.bar;*/`
 
 ## Test suite
 
