@@ -1,9 +1,9 @@
 /**
  * Set of utilities to transform Shadow DOM v1 to v0.
- * Usefull when writing "hybrid" Web Components which are V1 redy,
+ * Usefull when writing "hybrid" Web Components which are V1 ready,
  * but run in v0 environment/polyfill
  * @license MIT
- * @version: 0.0.4
+ * @version: 0.0.5
  */
 const TranslateShadowDOM = {
     /**
