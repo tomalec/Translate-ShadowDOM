@@ -75,7 +75,7 @@ const TranslateShadowDOM = {
         * @return {String}        translated CSS
         */
         css: function(string) {
-            return string.replace(/::slotted\(([^\)]*)\)/gi,'::content $1');
+            return string.replace(/::slotted\(([^\)]*)\)/gi,'::content>$1');
         },
         /**
         * Replaces all `attachShadow(*)` with `createShadowRoot()`.
@@ -160,7 +160,7 @@ const TranslateShadowDOM = {
         * @return {String}        translated CSS
         */
         css: function(string) {
-            return string.replace(/::content\s*([^,{]*?)(\s*[,{])/gi,'::slotted($1)$2');
+            return string.replace(/::content\s*>?\s*([^,{]*?)(\s*[,{])/gi,'::slotted($1)$2');
         },
         /**
         * Replaces all `createShadowRoot()` tags with `attachShadow({mode:'open'})`.

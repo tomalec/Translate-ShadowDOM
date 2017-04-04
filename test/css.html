@@ -24,14 +24,14 @@
     }
     </style>
     <style id="v0" type="text/html">
-    #i1::content .foo {
+    #i1::content>.foo {
        color: green;
     }
-    #i1::content .foo .bar,
-    .class::content * {
+    #i1::content>.foo .bar,
+    .class::content>* {
        color: green;
     }
-    .foo ::content .bar{
+    .foo ::content>.bar{
        color: green;
     }
     </style>
@@ -43,7 +43,7 @@
         var styles = document.getElementById('v1').textContent;
         var reference = document.getElementById('v0').textContent;
 
-        it('should replace slots them with applicable content tags', function () {
+        it('should replace ::slotted them with applicable ::content', function () {
 
             expect(TranslateShadowDOM.v1tov0.css(styles).trim()).to.equal(reference.trim());
         });
@@ -54,7 +54,7 @@
         var styles = document.getElementById('v0').textContent;
         var reference = document.getElementById('v1').textContent;
 
-        it('should replace slots them with applicable content tags', function () {
+        it('should replace ::content them with applicable ::slotted', function () {
 
             expect(TranslateShadowDOM.v0tov1.css(styles).trim()).to.equal(reference.trim());
         });
