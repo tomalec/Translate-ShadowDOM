@@ -1,9 +1,9 @@
 /**
  * Set of utilities to transform Shadow DOM v1 to v0.
- * Usefull when writing "hybrid" Web Components which are V1 redy,
+ * Usefull when writing "hybrid" Web Components which are V1 ready,
  * but run in v0 environment/polyfill
  * @license MIT
- * @version: 0.0.4
+ * @version: 0.0.5
  */
 const TranslateShadowDOM = {
     /**
@@ -75,7 +75,7 @@ const TranslateShadowDOM = {
         * @return {String}        translated CSS
         */
         css: function(string) {
-            return string.replace(/::slotted\(([^\)]*)\)/gi,'::content $1');
+            return string.replace(/::slotted\(([^\)]*)\)/gi,'::content>$1');
         },
         /**
         * Replaces all `attachShadow(*)` with `createShadowRoot()`.
@@ -155,12 +155,28 @@ const TranslateShadowDOM = {
             return root;
         },
         /**
-        * Replaces all ::slotted() tags with ::content
+        * Replaces all ::content tags with ::slotted with warning if needed
         * @param  {String} string stringified CSS
         * @return {String}        translated CSS
         */
         css: function(string) {
-            return string.replace(/::content\s*([^,{]*?)(\s*[,{])/gi,'::slotted($1)$2');
+            return string.replace(/::content\s*(>)?\s*([^,{\s]*?)([\+\s\~][^,{\s]+?)?(\s*[,{])/gi,
+                    function(match, direct, compound, complex, rest){
+                        let warning = '';
+                        if(!direct){
+                            warning += ' V1 matches only direct children;';
+                        }
+                        if(complex){
+                            warning += ' V1 supports only compound selectors, selector skipped:'+complex+';';
+                        }
+                        if(warning){
+                            console.warn('TranslateShadowDOM.v0tov1.css: ' + warning);
+                            return '::slotted(' + compound + ')/* FIXME' + warning + '*/' + rest;
+                        } else {
+                            return '::slotted(' + compound + ')' + rest;
+                        }
+                    });
+            ;
         },
         /**
         * Replaces all `createShadowRoot()` tags with `attachShadow({mode:'open'})`.

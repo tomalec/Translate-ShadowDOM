@@ -30,12 +30,12 @@
     "web-component-tester": "^5.0.0",
     "webcomponentsjs": "webcomponents.js#^0.7.24"
   },
-  "version": "0.0.4",
-  "_release": "0.0.4",
+  "version": "0.0.5",
+  "_release": "0.0.5",
   "_resolution": {
     "type": "version",
-    "tag": "0.0.4",
-    "commit": "6fb5c4a4803cc0671acda65adf808373a01dd368"
+    "tag": "0.0.5",
+    "commit": "815391b1bee2640def2f9f4905109d9927f3aeee"
   },
   "_source": "https://github.com/tomalec/Translate-ShadowDOM.git",
   "_target": ">=0.0.2",
