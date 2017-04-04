@@ -3,7 +3,7 @@
  * Usefull when writing "hybrid" Web Components which are V1 redy,
  * but run in v0 environment/polyfill
  * @license MIT
- * @version: 0.0.3
+ * @version: 0.0.4
  */
 const TranslateShadowDOM = {
     /**
@@ -51,7 +51,7 @@ const TranslateShadowDOM = {
         * @param  {Boolean}                 withScript should enclosed `script` tags be also translated
         * @return {Documentfragment|Node}      modified scope
         */
-        fragment: function(root, withStyle, withScript) {
+        fragment: function fragment(root, withStyle, withScript) {
             if (root.firstChild) {
                 var node = root.firstChild;
                 while (node) {
@@ -63,6 +63,7 @@ const TranslateShadowDOM = {
                     } else if (withScript && node.localName === 'script') {
                         node.textContent = TranslateShadowDOM.v1tov0.js(node.textContent);
                     }
+                    fragment(node, withStyle, withScript);
                     node = next;
                 }
             }
@@ -135,7 +136,7 @@ const TranslateShadowDOM = {
         * @param  {Boolean}                 withStyle should enclosed `script` tags be also translated
         * @return {Documentfragment|Node}      modified scope
         */
-        fragment: function(root, withStyle, withScript) {
+        fragment: function fragment(root, withStyle, withScript) {
             if (root.firstChild) {
                 var node = root.firstChild;
                 while (node) {
@@ -147,6 +148,7 @@ const TranslateShadowDOM = {
                     } else if (withScript && node.localName === 'script') {
                         node.textContent = TranslateShadowDOM.v0tov1.js(node.textContent);
                     }
+                    fragment(node, withStyle, withScript);
                     node = next;
                 }
             }

@@ -1,6 +1,6 @@
 {
   "name": "translate-shadowdom",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Set of utilities to transform Shadow DOM v1 to v0",
   "homepage": "https://github.com/tomalec/Translate-ShadowDOM",
   "keywords": [
@@ -30,6 +30,6 @@
   },
   "scripts": {
     "test": "wct",
-    "gh-pages": "git checkout gh-pages && bower update translate-shadowdom && git add bower_components/ && git commit -m 'Update translate-shadowdom' && git status"
+    "gh-pages": "git checkout gh-pages && bower update translate-shadowdom && git status && git add . && git commit -m \"Update translate-shadowdom\" && git push origin gh-pages && git checkout master"
   }
 }
